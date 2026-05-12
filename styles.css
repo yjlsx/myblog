@@ -781,8 +781,12 @@ main,
 .post-card p {
   margin: 0 0 14px;
   color: #514b45;
+  display: -webkit-box;
   font-size: 15px;
   line-height: 1.72;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .post-actions {
