@@ -224,6 +224,11 @@ accessForm.addEventListener("submit", async (event) => {
     return;
   }
 
+  if (invite === "/admin") {
+    window.location.href = "/admin";
+    return;
+  }
+
   try {
     const session = await api("/api/login", {
       method: "POST",

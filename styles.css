@@ -75,7 +75,7 @@ body.is-locked .site-footer {
 
 body.is-locked .motion-bg {
   z-index: 61;
-  opacity: 0.34;
+  opacity: 0;
 }
 
 .privacy-gate {
@@ -910,8 +910,7 @@ body.is-locked .access-widget {
   border: 0;
   border-radius: 0;
   background:
-    linear-gradient(115deg, rgba(9, 18, 20, 0.9), rgba(18, 25, 25, 0.62) 44%, rgba(69, 47, 28, 0.58)),
-    url("assets/hero-journal.jpg") center / cover no-repeat;
+    linear-gradient(180deg, #dcebf0 0%, #c7dce2 32%, #b8cbc4 58%, #667a70 100%);
   box-shadow: none;
   padding: 24px;
 }
@@ -920,43 +919,172 @@ body.is-locked .access-widget::before,
 body.is-locked .access-widget::after {
   content: "";
   position: absolute;
-  inset: -18%;
   pointer-events: none;
 }
 
 body.is-locked .access-widget::before {
+  inset: 0;
   background:
-    radial-gradient(circle at 24% 30%, rgba(217, 188, 125, 0.22), transparent 28%),
-    radial-gradient(circle at 76% 42%, rgba(59, 131, 120, 0.2), transparent 30%),
-    linear-gradient(120deg, transparent 0 36%, rgba(255, 255, 255, 0.09) 44%, transparent 52% 100%);
-  animation: gateDrift 22s ease-in-out infinite alternate;
+    radial-gradient(circle at 22% 24%, rgba(255, 241, 190, 0.7), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 45%),
+    linear-gradient(115deg, rgba(13, 33, 39, 0.08), transparent 44%, rgba(20, 42, 43, 0.18));
+  z-index: 1;
 }
 
 body.is-locked .access-widget::after {
+  inset: 0;
   background:
-    repeating-linear-gradient(115deg, transparent 0 70px, rgba(255, 253, 248, 0.045) 71px, transparent 72px),
-    repeating-linear-gradient(0deg, transparent 0 118px, rgba(183, 131, 47, 0.045) 119px, transparent 120px);
-  mix-blend-mode: screen;
-  animation: gatePan 18s linear infinite;
+    linear-gradient(180deg, transparent 0 52%, rgba(22, 35, 31, 0.2) 78%, rgba(12, 18, 16, 0.42) 100%),
+    radial-gradient(ellipse at center, transparent 42%, rgba(14, 25, 24, 0.22) 100%);
+  z-index: 6;
 }
 
-@keyframes gateDrift {
+.gate-scene {
+  display: none;
+}
+
+body.is-locked .gate-scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.gate-sun {
+  position: absolute;
+  top: 13%;
+  left: 18%;
+  width: clamp(160px, 20vw, 280px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 238, 171, 0.88) 0 18%, rgba(255, 220, 138, 0.36) 44%, transparent 68%);
+  filter: blur(1px);
+  opacity: 0.8;
+}
+
+.gate-cloud {
+  position: absolute;
+  width: clamp(240px, 34vw, 560px);
+  height: clamp(70px, 9vw, 130px);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 17% 58%, rgba(255, 255, 255, 0.86) 0 28%, transparent 30%),
+    radial-gradient(circle at 36% 42%, rgba(255, 255, 255, 0.92) 0 34%, transparent 36%),
+    radial-gradient(circle at 59% 48%, rgba(255, 255, 255, 0.82) 0 31%, transparent 33%),
+    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.72) 0 24%, transparent 26%);
+  filter: blur(3px);
+  opacity: 0.76;
+  transform: translate3d(0, 0, 0);
+  animation: cloudDrift 44s linear infinite;
+  will-change: transform;
+  z-index: 3;
+}
+
+.gate-cloud-a {
+  top: 12%;
+  left: -18%;
+  animation-duration: 56s;
+}
+
+.gate-cloud-b {
+  top: 25%;
+  left: 42%;
+  width: clamp(210px, 28vw, 460px);
+  opacity: 0.58;
+  animation-delay: -22s;
+  animation-duration: 64s;
+}
+
+.gate-cloud-c {
+  top: 38%;
+  left: -26%;
+  width: clamp(280px, 42vw, 680px);
+  opacity: 0.44;
+  animation-delay: -8s;
+  animation-duration: 76s;
+}
+
+.gate-cloud-d {
+  top: 8%;
+  left: 70%;
+  width: clamp(180px, 25vw, 380px);
+  opacity: 0.48;
+  animation-delay: -34s;
+  animation-duration: 70s;
+}
+
+.gate-mountain {
+  position: absolute;
+  right: -10%;
+  bottom: -2%;
+  left: -10%;
+  transform: translate3d(0, 0, 0);
+  clip-path: polygon(0 100%, 0 62%, 8% 54%, 16% 68%, 24% 37%, 34% 61%, 43% 26%, 54% 58%, 64% 34%, 76% 66%, 87% 42%, 100% 70%, 100% 100%);
+}
+
+.gate-mountain-back {
+  height: 55%;
+  background: linear-gradient(180deg, rgba(129, 158, 155, 0.82), rgba(69, 99, 91, 0.86));
+  filter: blur(1px);
+  opacity: 0.62;
+  z-index: 2;
+}
+
+.gate-mountain-mid {
+  height: 48%;
+  background: linear-gradient(180deg, rgba(78, 118, 111, 0.94), rgba(43, 75, 66, 0.96));
+  clip-path: polygon(0 100%, 0 72%, 10% 53%, 18% 64%, 28% 34%, 39% 64%, 49% 30%, 61% 66%, 70% 42%, 80% 70%, 90% 45%, 100% 68%, 100% 100%);
+  z-index: 4;
+}
+
+.gate-mountain-front {
+  height: 37%;
+  background: linear-gradient(180deg, rgba(49, 83, 72, 0.98), rgba(24, 49, 41, 0.98));
+  clip-path: polygon(0 100%, 0 74%, 9% 66%, 20% 76%, 32% 48%, 44% 73%, 55% 45%, 66% 76%, 79% 53%, 91% 78%, 100% 64%, 100% 100%);
+  z-index: 5;
+}
+
+.gate-mist {
+  position: absolute;
+  right: -12%;
+  left: -12%;
+  height: 110px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  filter: blur(18px);
+  opacity: 0.6;
+  animation: mistDrift 28s ease-in-out infinite alternate;
+  will-change: transform;
+  z-index: 6;
+}
+
+.gate-mist-a {
+  bottom: 24%;
+}
+
+.gate-mist-b {
+  bottom: 14%;
+  opacity: 0.38;
+  animation-delay: -12s;
+}
+
+@keyframes cloudDrift {
   from {
-    transform: translate3d(-2%, -1%, 0) scale(1);
+    transform: translate3d(-18vw, 0, 0);
   }
 
   to {
-    transform: translate3d(2%, 1%, 0) scale(1.05);
+    transform: translate3d(118vw, 0, 0);
   }
 }
 
-@keyframes gatePan {
+@keyframes mistDrift {
   from {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-4%, 0, 0);
   }
 
   to {
-    transform: translate3d(4%, -3%, 0);
+    transform: translate3d(4%, -5px, 0);
   }
 }
 
@@ -967,13 +1095,14 @@ body.is-locked .access-widget::after {
 
 body.is-locked .access-widget form {
   position: relative;
-  z-index: 1;
+  z-index: 8;
   width: min(420px, 100%);
   gap: 12px;
-  border: 1px solid rgba(255, 253, 248, 0.28);
-  border-radius: 14px;
-  background: rgba(255, 253, 248, 0.9);
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  border: 1px solid rgba(255, 253, 248, 0.48);
+  border-radius: 16px;
+  background: rgba(255, 253, 248, 0.84);
+  box-shadow: 0 28px 90px rgba(19, 35, 34, 0.32);
+  backdrop-filter: blur(18px);
   padding: clamp(22px, 5vw, 34px);
 }
 
@@ -1377,8 +1506,8 @@ body.is-locked .access-widget button {
     display: none;
   }
 
-  body.is-locked .access-widget::before,
-  body.is-locked .access-widget::after {
+  .gate-cloud,
+  .gate-mist {
     animation: none;
   }
 
@@ -1485,6 +1614,66 @@ body.is-locked .access-widget button {
 }
 
 @media (max-width: 600px) {
+  body.is-locked .access-widget {
+    align-items: center;
+    padding: 18px;
+  }
+
+  body.is-locked .access-widget form {
+    width: min(100%, 360px);
+    padding: 22px 18px;
+  }
+
+  body.is-locked .access-widget strong {
+    font-size: 31px;
+  }
+
+  .gate-sun {
+    top: 9%;
+    left: 8%;
+    width: 180px;
+  }
+
+  .gate-cloud {
+    width: 300px;
+    height: 86px;
+    filter: blur(4px);
+  }
+
+  .gate-cloud-a {
+    top: 10%;
+  }
+
+  .gate-cloud-b {
+    top: 22%;
+    left: 28%;
+  }
+
+  .gate-cloud-c {
+    top: 34%;
+  }
+
+  .gate-cloud-d {
+    top: 5%;
+    left: 60%;
+  }
+
+  .gate-mountain-back {
+    height: 52%;
+  }
+
+  .gate-mountain-mid {
+    height: 46%;
+  }
+
+  .gate-mountain-front {
+    height: 35%;
+  }
+
+  .gate-mist {
+    height: 78px;
+  }
+
   .header-inner,
   main,
   .site-footer {
