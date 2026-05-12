@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>拾光札记 | 日常思考与知识记录</title>
+    <meta
+      name="description"
+      content="一个记录日常思考、阅读笔记、知识沉淀与生活观察的个人网站。"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas class="motion-bg" id="motionBg" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#" aria-label="拾光札记首页">
+          <img class="brand-avatar" src="assets/avatar.jpg" alt="网站头像" />
+          <span>
+            <strong>拾光札记</strong>
+            <small>日常思考、知识与慢慢成形的自己</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#notes">札记</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="admin-login hidden" id="adminLogin" aria-label="管理员登录">
+      <div class="admin-inner">
+        <form class="admin-login-form" id="adminLoginForm">
+          <div>
+            <p class="kicker">Admin</p>
+            <h2>管理员入口</h2>
+            <p>登录后可以发布、编辑、上传图片和调整文章布局。</p>
+          </div>
+          <label>
+            账号
+            <input id="adminLoginUser" type="text" autocomplete="username" required />
+          </label>
+          <label>
+            密码
+            <input
+              id="adminLoginPassword"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <button type="submit">进入管理</button>
+          <p class="admin-note" id="adminLoginNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="admin-panel hidden" id="adminPanel" aria-label="文章管理">
+      <div class="admin-inner">
+        <div class="admin-heading">
+          <div>
+            <p class="kicker">Admin Desk</p>
+            <h2>文章管理</h2>
+            <p>新增、编辑、换封面、插入图片和调整文章布局。内容会先保存在这个浏览器里。</p>
+          </div>
+          <div class="admin-actions">
+            <button type="button" id="adminNew">新文章</button>
+            <button type="button" id="adminExport">导出数据</button>
+            <button type="button" id="adminLogout">退出管理</button>
+          </div>
+        </div>
+
+        <form class="admin-form" id="adminForm">
+          <input type="hidden" id="adminPostId" />
+
+          <label>
+            标题
+            <input id="adminTitle" type="text" required />
+          </label>
+
+          <label>
+            日期
+            <input id="adminDate" type="date" required />
+          </label>
+
+          <label>
+            分类
+            <select id="adminCategory">
+              <option value="daily">日常思考</option>
+              <option value="work">工作思考</option>
+              <option value="reading">阅读笔记</option>
+              <option value="knowledge">知识沉淀</option>
+            </select>
+          </label>
+
+          <label>
+            标签（用，隔开）
+            <input id="adminTag" type="text" placeholder="例如：效率，复盘，AI" />
+          </label>
+
+          <label class="admin-wide">
+            摘要
+            <textarea id="adminExcerpt" rows="3" required></textarea>
+          </label>
+
+          <label>
+            封面图片地址
+            <input id="adminImage" type="text" placeholder="assets/cover.jpg 或图片链接" />
+          </label>
+
+          <label>
+            上传封面
+            <input id="adminImageFile" type="file" accept="image/*" />
+          </label>
+
+          <label>
+            文章布局
+            <select id="adminLayout">
+              <option value="standard">标准</option>
+              <option value="essay">长文</option>
+              <option value="gallery">图文</option>
+            </select>
+          </label>
+
+          <label>
+            插入正文图片
+            <input id="adminInlineImageFile" type="file" accept="image/*" />
+          </label>
+
+          <label>
+            导入正文
+            <input id="adminImportFile" type="file" accept=".txt,.docx,.doc,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          </label>
+
+          <div class="editor-toolbar admin-wide" aria-label="正文格式工具">
+            <button type="button" data-editor-wrap="**|**">加粗</button>
+            <button type="button" data-editor-wrap="*|*">斜体</button>
+            <button type="button" data-editor-prefix="## ">小标题</button>
+            <button type="button" data-editor-prefix="> ">引用</button>
+            <button type="button" data-editor-wrap="[center]|[/center]">居中</button>
+            <label>
+              颜色
+              <input id="editorColor" type="color" value="#315f58" />
+            </label>
+            <button type="button" id="editorApplyColor">应用颜色</button>
+            <label>
+              字号
+              <select id="editorFontSize">
+                <option value="16">16</option>
+                <option value="18" selected>18</option>
+                <option value="22">22</option>
+                <option value="28">28</option>
+                <option value="36">36</option>
+              </select>
+            </label>
+            <button type="button" id="editorApplySize">应用字号</button>
+            <button type="button" data-editor-insert="\n\n---\n\n">分隔线</button>
+            <button type="button" data-editor-insert="\n\n| 项目 | 内容 |\n| --- | --- |\n| 例子 | 说明 |\n\n">表格</button>
+            <button type="button" data-editor-insert="\n\n```mermaid\ngraph TD\n  A[想法] --> B[整理]\n  B --> C[文章]\n```\n\n">图表</button>
+          </div>
+
+          <label class="admin-wide">
+            正文
+            <textarea
+              id="adminContent"
+              rows="11"
+              placeholder="直接输入正文。支持：## 小标题、--- 分隔线、![图片说明](图片地址)、表格、图表"
+            ></textarea>
+          </label>
+
+          <div class="admin-buttons admin-wide">
+            <button type="submit">保存文章</button>
+            <button type="button" id="adminDelete">删除当前文章</button>
+            <button type="reset">清空表单</button>
+          </div>
+
+          <p class="admin-note admin-wide" id="adminNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <main>
+      <section class="intro" id="top">
+        <div class="intro-copy">
+          <p class="kicker">私人知识花园</p>
+          <h1>把每天经过脑海的东西，认真地留下来。</h1>
+          <p>
+            这里用来收纳阅读、工作、生活里的观察：有些是完整文章，有些只是短短一段念头。
+            重要的不是立刻写得漂亮，而是让想法有地方继续生长。
+          </p>
+        </div>
+      </section>
+
+      <section class="tools" id="listTools" aria-label="内容筛选">
+        <div class="tool-stack">
+          <div class="collection-tabs" aria-label="内容区域">
+            <button class="active" type="button" data-collection="essay">随笔文章</button>
+            <button type="button" data-collection="reading">读书笔记</button>
+          </div>
+          <div class="search-box">
+            <label for="searchInput">搜索内容</label>
+            <input id="searchInput" type="search" placeholder="试试输入：AI、生活、一本书" />
+          </div>
+        </div>
+        <div class="filter-tabs" aria-label="分类筛选">
+          <button class="active" type="button" data-filter="all">全部随笔</button>
+          <button type="button" data-filter="daily">日常思考</button>
+          <button type="button" data-filter="work">工作思考</button>
+          <button type="button" data-filter="knowledge">知识沉淀</button>
+        </div>
+      </section>
+
+      <section class="content-shell" id="listContent">
+        <div>
+          <div class="list-heading">
+            <h2 id="listTitle">随笔文章</h2>
+          </div>
+          <div class="post-list" id="notes" aria-live="polite"></div>
+          <nav class="pagination hidden" id="pagination" aria-label="文章分页">
+            <button type="button" id="pagePrev">上一页</button>
+            <span id="pageInfo"></span>
+            <button type="button" id="pageNext">下一页</button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="full-article hidden" id="fullArticle">
+        <a class="back-link" href="/" id="backToList">返回文章列表</a>
+        <article class="article-reader" id="fullArticleReader"></article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>拾光札记 © 2026</p>
+      <div>
+        <a href="#top">回到顶部</a>
+        <a href="mailto:hello@example.com">联系我</a>
+      </div>
+    </footer>
+
+    <aside class="access-widget" id="accessWidget" aria-label="订阅与邀请码">
+      <form id="accessForm">
+        <strong>邀请码</strong>
+        <input
+          id="accessInvite"
+          type="password"
+          placeholder="邀请码"
+          autocomplete="one-time-code"
+        />
+        <button type="submit">进入</button>
+        <p id="accessNote" role="status"></p>
+      </form>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>

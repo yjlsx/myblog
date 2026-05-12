@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" role="img" aria-labelledby="title desc">
+  <title id="title">书桌笔记插画</title>
+  <desc id="desc">一张带有笔记本、便签、铅笔和咖啡杯的温暖书桌插画</desc>
+  <rect width="720" height="560" fill="#fff7e8"/>
+  <rect x="68" y="76" width="430" height="360" fill="#f5ebd6" stroke="#2f2a24" stroke-width="3"/>
+  <rect x="100" y="106" width="368" height="300" fill="#fffdf7" stroke="#d8cab8" stroke-width="2"/>
+  <line x1="132" y1="160" x2="432" y2="160" stroke="#d9cec0" stroke-width="3"/>
+  <line x1="132" y1="210" x2="396" y2="210" stroke="#d9cec0" stroke-width="3"/>
+  <line x1="132" y1="260" x2="424" y2="260" stroke="#d9cec0" stroke-width="3"/>
+  <line x1="132" y1="310" x2="360" y2="310" stroke="#d9cec0" stroke-width="3"/>
+  <rect x="480" y="122" width="116" height="96" fill="#d9907c" stroke="#2f2a24" stroke-width="3"/>
+  <rect x="514" y="250" width="124" height="120" fill="#83aa9a" stroke="#2f2a24" stroke-width="3"/>
+  <path d="M545 416l80-168 28 13-80 168z" fill="#c49a45" stroke="#2f2a24" stroke-width="3"/>
+  <path d="M625 248l18-38 28 13-18 38z" fill="#314f63" stroke="#2f2a24" stroke-width="3"/>
+  <circle cx="142" cy="438" r="44" fill="#416c8c" stroke="#2f2a24" stroke-width="3"/>
+  <circle cx="142" cy="438" r="23" fill="#fff7e8" stroke="#2f2a24" stroke-width="3"/>
+  <path d="M98 438H54c0 34 20 58 50 58" fill="none" stroke="#2f2a24" stroke-width="8"/>
+  <rect x="230" y="446" width="196" height="22" fill="#9e4f58"/>
+  <rect x="230" y="482" width="284" height="16" fill="#2f6f63"/>
+</svg>

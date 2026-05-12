@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" role="img" aria-labelledby="title desc">
+  <title id="title">个人笔记头像卡片</title>
+  <desc id="desc">抽象头像、便签和书页组成的个人资料插画</desc>
+  <rect width="520" height="300" fill="#fff7e8"/>
+  <rect x="34" y="38" width="452" height="224" fill="#f8efe1" stroke="#2f2a24" stroke-width="3"/>
+  <circle cx="168" cy="128" r="54" fill="#416c8c" stroke="#2f2a24" stroke-width="3"/>
+  <path d="M86 248c14-54 48-82 86-82s72 28 86 82" fill="#83aa9a" stroke="#2f2a24" stroke-width="3"/>
+  <rect x="288" y="78" width="132" height="38" fill="#d9907c"/>
+  <rect x="288" y="138" width="166" height="18" fill="#d8cab8"/>
+  <rect x="288" y="176" width="126" height="18" fill="#d8cab8"/>
+  <rect x="288" y="214" width="148" height="18" fill="#d8cab8"/>
+</svg>
