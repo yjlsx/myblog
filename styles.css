@@ -940,21 +940,21 @@ main,
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 8px 10px;
-  margin-top: 18px;
+  margin: 12px 0 10px;
   color: var(--muted);
   font-size: 14px;
 }
 
 .article-tags {
-  justify-content: flex-end;
-  margin-top: -28px;
-  margin-bottom: 18px;
+  justify-content: center;
+  margin: 0 0 20px;
 }
 
 .article-reader h1 {
   max-width: 840px;
-  margin: 16px auto 10px;
+  margin: 4px auto 0;
   font-family: Georgia, "Noto Serif CJK SC", "SimSun", serif;
   font-size: clamp(25px, 3.6vw, 36px);
   line-height: 1.22;
@@ -1331,6 +1331,21 @@ main,
 
   .article-reader {
     padding: 16px;
+  }
+
+  .article-reader h1 {
+    font-size: 23px;
+    line-height: 1.32;
+    text-align: left;
+  }
+
+  .article-meta,
+  .article-tags {
+    justify-content: flex-start;
+  }
+
+  .article-meta {
+    margin-top: 10px;
   }
 
   .back-link {

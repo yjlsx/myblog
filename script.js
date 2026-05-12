@@ -614,6 +614,7 @@ async function showArticlePage(postId) {
 
   fullArticleReader.className = `article-reader layout-${post.layout}`;
   fullArticleReader.innerHTML = `
+    <h1>${escapeHtml(post.title)}</h1>
     <div class="article-meta">
       <span>${escapeHtml(post.date)}</span>
       <button type="button" class="category-link" data-category="${escapeHtml(post.category)}">
@@ -621,7 +622,6 @@ async function showArticlePage(postId) {
       </button>
     </div>
     <div class="article-tags">${renderTagButtons(post)}</div>
-    <h1>${escapeHtml(post.title)}</h1>
     <img class="article-cover" src="${escapeHtml(mediaSrc(post.image))}" alt="${escapeHtml(post.title)}封面图" />
     <div class="article-body">${post.html}</div>
   `;
