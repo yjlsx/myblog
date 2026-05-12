@@ -27,6 +27,9 @@ const fullArticleReader = document.querySelector("#fullArticleReader");
 const backToList = document.querySelector("#backToList");
 const filterTabs = document.querySelector(".filter-tabs");
 const listTitle = document.querySelector("#listTitle");
+const heroTotalCount = document.querySelector("#heroTotalCount");
+const heroEssayCount = document.querySelector("#heroEssayCount");
+const heroReadingCount = document.querySelector("#heroReadingCount");
 
 const adminLogin = document.querySelector("#adminLogin");
 const adminLoginForm = document.querySelector("#adminLoginForm");
@@ -90,6 +93,10 @@ const collectionCopy = {
   }
 };
 
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
 if (isAdminRoute) {
   accessWidget.classList.add("hidden");
   intro.classList.add("hidden");
@@ -134,11 +141,15 @@ function mediaSrc(value) {
   return src;
 }
 
+function canManagePosts() {
+  return isAdmin && isAdminRoute;
+}
+
 function unlockSite(admin = false) {
   isAdmin = admin;
   isAuthenticated = true;
   adminLogin.classList.add("hidden");
-  adminPanel.classList.toggle("hidden", !isAdmin);
+  adminPanel.classList.toggle("hidden", !canManagePosts());
   accessWidget.classList.add("hidden");
   accessWidget.classList.toggle("unlocked", true);
 
@@ -268,7 +279,9 @@ async function loadPosts() {
 
 function renderPosts() {
   const keyword = searchInput.value.trim().toLowerCase();
+  const canManage = canManagePosts();
   updateCollectionView();
+  updateHeroStats();
   const filteredPosts = posts.filter((post) => {
     const matchesCollection =
       activeCollection === "all" ||
@@ -301,7 +314,7 @@ function renderPosts() {
   postList.innerHTML = pagePosts
     .map(
       (post) => `
-        <article class="post-card ${isAdmin ? "sortable" : ""}" data-post-id="${escapeHtml(post.id)}" ${isAdmin ? `draggable="true"` : ""}>
+        <article class="post-card ${canManage ? "sortable" : ""}" data-post-id="${escapeHtml(post.id)}" ${canManage ? `draggable="true"` : ""}>
           <img src="${escapeHtml(mediaSrc(post.image))}" alt="${escapeHtml(post.title)}封面图" />
           <div>
             <div class="post-meta">
@@ -320,7 +333,7 @@ function renderPosts() {
             <p>${escapeHtml(post.excerpt)}</p>
             <div class="post-actions">
               ${
-                isAdmin
+                canManage
                   ? `
                     <button class="inline-edit" type="button" data-edit="${escapeHtml(post.id)}">编辑</button>
                     <button class="inline-edit danger" type="button" data-delete="${escapeHtml(post.id)}">删除文章</button>
@@ -344,6 +357,14 @@ function renderPosts() {
   pageInfo.textContent = `第 ${currentPage} / ${totalPages} 页`;
   pagePrev.disabled = currentPage <= 1;
   pageNext.disabled = currentPage >= totalPages;
+}
+
+function updateHeroStats() {
+  if (!heroTotalCount || !heroEssayCount || !heroReadingCount) return;
+  const readingCount = posts.filter((post) => post.category === "reading").length;
+  heroTotalCount.textContent = String(posts.length);
+  heroReadingCount.textContent = String(readingCount);
+  heroEssayCount.textContent = String(Math.max(0, posts.length - readingCount));
 }
 
 function setCollection(collection) {
@@ -490,7 +511,7 @@ postList.addEventListener("click", async (event) => {
 
 postList.addEventListener("dragstart", (event) => {
   const card = event.target.closest(".post-card[data-post-id]");
-  if (!card || !isAdmin || event.target.closest("button, a, input, select, textarea")) {
+  if (!card || !canManagePosts() || event.target.closest("button, a, input, select, textarea")) {
     event.preventDefault();
     return;
   }
@@ -501,7 +522,7 @@ postList.addEventListener("dragstart", (event) => {
 });
 
 postList.addEventListener("dragover", (event) => {
-  if (!draggedPostId || !isAdmin) return;
+  if (!draggedPostId || !canManagePosts()) return;
   event.preventDefault();
   const draggingCard = postList.querySelector(`[data-post-id="${cssEscape(draggedPostId)}"]`);
   const targetCard = event.target.closest(".post-card");
@@ -513,14 +534,14 @@ postList.addEventListener("dragover", (event) => {
 });
 
 postList.addEventListener("dragend", async () => {
-  if (!draggedPostId || !isAdmin) return;
+  if (!draggedPostId || !canManagePosts()) return;
   postList.querySelectorAll(".post-card.dragging").forEach((card) => card.classList.remove("dragging"));
   draggedPostId = "";
   await saveDraggedOrder();
 });
 
 postList.addEventListener("drop", (event) => {
-  if (!draggedPostId || !isAdmin) return;
+  if (!draggedPostId || !canManagePosts()) return;
   event.preventDefault();
 });
 
@@ -615,6 +636,7 @@ async function showArticlePage(postId) {
   listTools.classList.add("hidden");
   listContent.classList.add("hidden");
   fullArticle.classList.remove("hidden");
+  window.scrollTo(0, 0);
 
   fullArticleReader.className = `article-reader layout-${post.layout}`;
   fullArticleReader.innerHTML = `
@@ -630,7 +652,9 @@ async function showArticlePage(postId) {
     <div class="article-body">${post.html}</div>
   `;
   renderArticleDiagrams();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => window.scrollTo(0, 0));
+  setTimeout(() => window.scrollTo(0, 0), 80);
 }
 
 async function renderArticleDiagrams() {
