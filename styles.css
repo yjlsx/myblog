@@ -800,17 +800,14 @@ main,
 }
 
 .site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
   border-top: 1px solid var(--line);
   color: var(--muted);
+  font-size: 13px;
   padding: 26px 0 38px;
 }
 
-.site-footer div {
-  display: flex;
-  gap: 18px;
+.site-footer p {
+  margin: 0;
 }
 
 .access-widget {
@@ -1229,8 +1226,7 @@ main,
 }
 
 @media (max-width: 760px) {
-  .tools,
-  .site-footer {
+  .tools {
     align-items: flex-start;
     flex-direction: column;
   }
