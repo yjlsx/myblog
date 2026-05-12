@@ -58,7 +58,7 @@ const adminExport = document.querySelector("#adminExport");
 const adminLogout = document.querySelector("#adminLogout");
 
 let activeFilter = "all";
-let activeCollection = "essay";
+let activeCollection = "all";
 let activeTag = "";
 let isAdmin = false;
 let posts = [];
@@ -79,6 +79,9 @@ const imageCompression = {
   keepOriginalRatio: 0.94
 };
 const collectionCopy = {
+  all: {
+    title: "全部札记"
+  },
   essay: {
     title: "随笔文章"
   },
@@ -268,7 +271,8 @@ function renderPosts() {
   updateCollectionView();
   const filteredPosts = posts.filter((post) => {
     const matchesCollection =
-      activeCollection === "reading" ? post.category === "reading" : post.category !== "reading";
+      activeCollection === "all" ||
+      (activeCollection === "reading" ? post.category === "reading" : post.category !== "reading");
     const matchesFilter =
       activeCollection === "reading" || activeFilter === "all" || post.category === activeFilter;
     const tags = getTags(post);
@@ -299,7 +303,6 @@ function renderPosts() {
       (post) => `
         <article class="post-card ${isAdmin ? "sortable" : ""}" data-post-id="${escapeHtml(post.id)}" ${isAdmin ? `draggable="true"` : ""}>
           <img src="${escapeHtml(mediaSrc(post.image))}" alt="${escapeHtml(post.title)}封面图" />
-          <div class="post-tags">${renderTagButtons(post)}</div>
           <div>
             <div class="post-meta">
               <span>${escapeHtml(post.date)}</span>
@@ -313,6 +316,7 @@ function renderPosts() {
                 ${escapeHtml(post.title)}
               </a>
             </h2>
+            <div class="post-tags">${renderTagButtons(post)}</div>
             <p>${escapeHtml(post.excerpt)}</p>
             <div class="post-actions">
               ${
@@ -395,7 +399,7 @@ function applyTagFilter(tag) {
 function updateCollectionView() {
   const copy = collectionCopy[activeCollection] || collectionCopy.essay;
   listTitle.textContent = activeTag ? `# ${activeTag}` : copy.title;
-  filterTabs.classList.toggle("hidden", activeCollection === "reading");
+  filterTabs.classList.toggle("hidden", activeCollection !== "essay");
   collectionButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.collection === activeCollection);
   });
