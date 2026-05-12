@@ -151,7 +151,7 @@ function safeFileName(id) {
 }
 
 function parsePostMarkdown(filePath) {
-  const raw = fs.readFileSync(filePath, "utf8");
+  const raw = fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "");
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return null;
 
