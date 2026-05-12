@@ -68,9 +68,16 @@ let currentFilteredPostIds = [];
 let currentPageStart = 0;
 let draggedPostId = "";
 const postsPerPage = 10;
-const isAdminRoute = window.location.pathname === "/admin";
+const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+const isAdminRoute = currentPath === "/admin";
 let currentPostId = getPostIdFromPath();
 let activeArticleCategory = "";
+const imageCompression = {
+  coverMaxSide: 1800,
+  inlineMaxSide: 2200,
+  quality: 0.9,
+  keepOriginalRatio: 0.94
+};
 const collectionCopy = {
   essay: {
     title: "随笔文章"
@@ -82,6 +89,9 @@ const collectionCopy = {
 
 if (isAdminRoute) {
   accessWidget.classList.add("hidden");
+  intro.classList.add("hidden");
+  listTools.classList.add("hidden");
+  listContent.classList.add("hidden");
 }
 
 async function api(path, options = {}) {
@@ -128,8 +138,17 @@ function unlockSite(admin = false) {
   adminPanel.classList.toggle("hidden", !isAdmin);
   accessWidget.classList.add("hidden");
   accessWidget.classList.toggle("unlocked", true);
+
+  if (isAdminRoute && !isAdmin) {
+    lockSite("这里需要管理员账号和密码。");
+    return;
+  }
+
   if (currentPostId) {
     showArticlePage(currentPostId);
+  } else if (isAdminRoute) {
+    showAdminListView();
+    loadPosts();
   } else {
     loadPosts();
   }
@@ -140,7 +159,6 @@ function lockSite(message = "") {
   isAuthenticated = false;
   posts = [];
   renderPosts();
-  showListView();
   adminPanel.classList.add("hidden");
   adminLogin.classList.toggle("hidden", !isAdminRoute);
   accessWidget.classList.toggle("hidden", isAdminRoute);
@@ -148,7 +166,11 @@ function lockSite(message = "") {
   accessNote.textContent = message;
 
   if (isAdminRoute) {
+    showAdminLoginView();
+    adminLoginNote.textContent = message;
     adminLoginUser.focus();
+  } else {
+    showListView();
   }
 }
 
@@ -161,6 +183,10 @@ async function checkSession() {
   try {
     const session = await api("/api/session");
     if (session.authenticated) {
+      if (isAdminRoute && !session.admin) {
+        lockSite("这里需要管理员账号和密码。");
+        return;
+      }
       unlockSite(session.admin);
       return;
     }
@@ -561,6 +587,22 @@ function showListView() {
   fullArticle.classList.add("hidden");
 }
 
+function showAdminLoginView() {
+  currentPostId = "";
+  intro.classList.add("hidden");
+  listTools.classList.add("hidden");
+  listContent.classList.add("hidden");
+  fullArticle.classList.add("hidden");
+}
+
+function showAdminListView() {
+  currentPostId = "";
+  intro.classList.add("hidden");
+  listTools.classList.remove("hidden");
+  listContent.classList.remove("hidden");
+  fullArticle.classList.add("hidden");
+}
+
 async function showArticlePage(postId) {
   const post = await getFullPost(postId);
   activeArticleCategory = post.category;
@@ -764,6 +806,92 @@ function readFileAsDataUrl(file) {
   });
 }
 
+function formatFileSize(bytes) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 KB";
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function loadImageFromFile(file) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const url = URL.createObjectURL(file);
+    image.addEventListener("load", () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    });
+    image.addEventListener("error", () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("图片读取失败。"));
+    });
+    image.src = url;
+  });
+}
+
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type, quality);
+  });
+}
+
+async function blobToDataUrl(blob) {
+  return readFileAsDataUrl(new File([blob], "image", { type: blob.type || "image/webp" }));
+}
+
+async function readCompressedImage(file, maxSide) {
+  if (!file.type.startsWith("image/") || file.type === "image/gif" || file.type === "image/svg+xml") {
+    return {
+      dataUrl: await readFileAsDataUrl(file),
+      originalSize: file.size,
+      finalSize: file.size,
+      compressed: false
+    };
+  }
+
+  try {
+    const image = await loadImageFromFile(file);
+    const ratio = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+    const width = Math.max(1, Math.round(image.naturalWidth * ratio));
+    const height = Math.max(1, Math.round(image.naturalHeight * ratio));
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = width;
+    canvas.height = height;
+    context.drawImage(image, 0, 0, width, height);
+
+    const webpBlob = await canvasToBlob(canvas, "image/webp", imageCompression.quality);
+    if (!webpBlob || webpBlob.size >= file.size * imageCompression.keepOriginalRatio) {
+      return {
+        dataUrl: await readFileAsDataUrl(file),
+        originalSize: file.size,
+        finalSize: file.size,
+        compressed: false
+      };
+    }
+
+    return {
+      dataUrl: await blobToDataUrl(webpBlob),
+      originalSize: file.size,
+      finalSize: webpBlob.size,
+      compressed: true
+    };
+  } catch {
+    return {
+      dataUrl: await readFileAsDataUrl(file),
+      originalSize: file.size,
+      finalSize: file.size,
+      compressed: false
+    };
+  }
+}
+
+function compressionMessage(result, label) {
+  if (!result.compressed) {
+    return `${label}已载入。原图已经比较合适，保存时会直接上传。`;
+  }
+  return `${label}已自动压缩：${formatFileSize(result.originalSize)} -> ${formatFileSize(result.finalSize)}，保存文章后上传。`;
+}
+
 function insertAtCursor(textarea, text) {
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
@@ -828,18 +956,22 @@ adminImageFile.addEventListener("change", async () => {
   const file = adminImageFile.files[0];
   if (!file) return;
 
-  adminImage.value = await readFileAsDataUrl(file);
-  adminNote.textContent = "封面图片已载入，保存文章后会上传到服务器。";
+  adminNote.textContent = "正在优化封面图片...";
+  const result = await readCompressedImage(file, imageCompression.coverMaxSide);
+  adminImage.value = result.dataUrl;
+  adminImageFile.value = "";
+  adminNote.textContent = compressionMessage(result, "封面图片");
 });
 
 adminInlineImageFile.addEventListener("change", async () => {
   const file = adminInlineImageFile.files[0];
   if (!file) return;
 
-  const dataUrl = await readFileAsDataUrl(file);
-  insertAtCursor(adminContent, `\n\n![正文图片](${dataUrl})\n\n`);
+  adminNote.textContent = "正在优化正文图片...";
+  const result = await readCompressedImage(file, imageCompression.inlineMaxSide);
+  insertAtCursor(adminContent, `\n\n![正文图片](${result.dataUrl})\n\n`);
   adminInlineImageFile.value = "";
-  adminNote.textContent = "正文图片已插入，保存文章后会上传到服务器。";
+  adminNote.textContent = compressionMessage(result, "正文图片");
 });
 
 adminImportFile.addEventListener("change", async () => {
