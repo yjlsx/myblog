@@ -512,16 +512,6 @@ main,
   color: var(--accent-dark);
 }
 
-.intro h1 {
-  max-width: 720px;
-  margin: 0;
-  font-family: Georgia, "Noto Serif CJK SC", "SimSun", serif;
-  font-size: clamp(28px, 3.8vw, 44px);
-  font-weight: 700;
-  line-height: 1.18;
-  white-space: normal;
-}
-
 .intro p:last-child {
   max-width: 670px;
   margin: 16px 0 0;
@@ -884,6 +874,14 @@ main,
 
 .site-footer p {
   margin: 0;
+}
+
+.site-footer .footer-motto {
+  margin-bottom: 8px;
+  color: #4f625c;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: center;
 }
 
 .access-widget {
@@ -1584,7 +1582,6 @@ body.is-locked .access-widget button {
     padding: 20px;
   }
 
-  .intro h1,
   .intro p:last-child {
     white-space: normal;
   }
@@ -1722,11 +1719,6 @@ body.is-locked .access-widget button {
     padding: 18px 16px;
   }
 
-  .intro h1 {
-    font-size: 22px;
-    line-height: 1.28;
-  }
-
   .intro p:last-child {
     font-size: 14px;
     line-height: 1.62;
@@ -1755,6 +1747,11 @@ body.is-locked .access-widget button {
   .site-footer {
     padding: 22px 0 30px;
     text-align: center;
+  }
+
+  .site-footer .footer-motto {
+    font-size: 13px;
+    line-height: 1.65;
   }
 
   .article-reader {
