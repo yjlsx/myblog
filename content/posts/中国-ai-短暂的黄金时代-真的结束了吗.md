@@ -1,4 +1,4 @@
----
+﻿---
 {
   "id": "中国-ai-短暂的黄金时代-真的结束了吗",
   "title": "中国 AI 短暂的黄金时代，真的结束了吗？",
@@ -8,7 +8,7 @@
   "tags": [
     "AI"
   ],
-  "image": "assets/uploads/中国-ai-短暂的黄金时代-真的结束了吗-cover-1778557551640-d8da5e61.png",
+  "image": "assets/uploads/中国-ai-短暂的黄金时代-真的结束了吗-cover-1778557551640-d8da5e61.webp",
   "layout": "standard",
   "pinned": false,
   "sortOrder": 1778572462106,
