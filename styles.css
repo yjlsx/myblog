@@ -966,62 +966,7 @@ body.is-locked .gate-scene {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  transform: scale(1.03);
   filter: saturate(1.04) contrast(1.03);
-}
-
-.gate-cloud-layer {
-  position: absolute;
-  left: -28%;
-  right: -28%;
-  height: 36%;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 12% 54%, rgba(255, 255, 255, 0.46), transparent 43%),
-    radial-gradient(ellipse at 34% 46%, rgba(255, 255, 255, 0.36), transparent 47%),
-    radial-gradient(ellipse at 58% 50%, rgba(255, 255, 255, 0.32), transparent 45%),
-    radial-gradient(ellipse at 82% 48%, rgba(255, 255, 255, 0.38), transparent 44%);
-  filter: blur(20px);
-  opacity: 0.34;
-  animation: mountainMistDrift 42s ease-in-out infinite alternate;
-  will-change: transform;
-  z-index: 2;
-}
-
-.gate-cloud-layer-a {
-  top: 4%;
-  opacity: 0.3;
-  animation-duration: 56s;
-}
-
-.gate-cloud-layer-b {
-  top: 30%;
-  height: 32%;
-  opacity: 0.42;
-  animation-delay: -18s;
-  animation-duration: 48s;
-  z-index: 3;
-}
-
-.gate-cloud-layer-c {
-  top: 46%;
-  height: 30%;
-  opacity: 0.36;
-  filter: blur(24px);
-  animation-name: mountainMistDriftSlow;
-  animation-delay: -8s;
-  animation-duration: 62s;
-  z-index: 3;
-}
-
-.gate-cloud-layer-d {
-  bottom: 6%;
-  height: 28%;
-  opacity: 0.28;
-  filter: blur(26px);
-  animation-name: mountainMistDriftWide;
-  animation-delay: -28s;
-  animation-duration: 70s;
 }
 
 .gate-haze {
@@ -1034,36 +979,6 @@ body.is-locked .gate-scene {
   filter: blur(12px);
   opacity: 0.9;
   z-index: 3;
-}
-
-@keyframes mountainMistDrift {
-  from {
-    transform: translate3d(-5%, 0, 0) scale(1);
-  }
-
-  to {
-    transform: translate3d(5%, -8px, 0) scale(1.04);
-  }
-}
-
-@keyframes mountainMistDriftSlow {
-  from {
-    transform: translate3d(4%, 0, 0) scale(1.04);
-  }
-
-  to {
-    transform: translate3d(-4%, -10px, 0) scale(1);
-  }
-}
-
-@keyframes mountainMistDriftWide {
-  from {
-    transform: translate3d(-7%, 4px, 0) scale(1.02);
-  }
-
-  to {
-    transform: translate3d(7%, -6px, 0) scale(1.06);
-  }
 }
 
 .access-widget form {
@@ -1488,10 +1403,6 @@ body.is-locked .access-widget button {
     display: none;
   }
 
-  .gate-cloud-layer {
-    animation: none;
-  }
-
   .gate-panel button,
   .collection-tabs button,
   .filter-tabs button,
@@ -1603,31 +1514,6 @@ body.is-locked .access-widget button {
 
   body.is-locked .access-widget strong {
     font-size: 31px;
-  }
-
-  .gate-cloud-layer {
-    height: 34%;
-    filter: blur(14px);
-  }
-
-  .gate-cloud-layer-a {
-    top: 5%;
-  }
-
-  .gate-cloud-layer-b {
-    top: 28%;
-  }
-
-  .gate-cloud-layer-c {
-    top: 44%;
-    height: 32%;
-    filter: blur(18px);
-  }
-
-  .gate-cloud-layer-d {
-    bottom: 8%;
-    height: 28%;
-    filter: blur(20px);
   }
 
   .gate-haze {
