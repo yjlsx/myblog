@@ -249,16 +249,22 @@
 
     <aside class="access-widget hidden" id="accessWidget" aria-label="邀请码入口">
       <div class="gate-scene" aria-hidden="true">
-        <div class="gate-sun"></div>
-        <div class="gate-cloud gate-cloud-a"></div>
-        <div class="gate-cloud gate-cloud-b"></div>
-        <div class="gate-cloud gate-cloud-c"></div>
-        <div class="gate-cloud gate-cloud-d"></div>
-        <div class="gate-mountain gate-mountain-back"></div>
-        <div class="gate-mountain gate-mountain-mid"></div>
-        <div class="gate-mountain gate-mountain-front"></div>
-        <div class="gate-mist gate-mist-a"></div>
-        <div class="gate-mist gate-mist-b"></div>
+        <video
+          class="gate-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="assets/gate-mountain-video-poster.webp"
+        >
+          <source src="assets/gate-mountain-clouds.mp4" type="video/mp4" />
+        </video>
+        <div class="gate-cloud-layer gate-cloud-layer-a"></div>
+        <div class="gate-cloud-layer gate-cloud-layer-b"></div>
+        <div class="gate-cloud-layer gate-cloud-layer-c"></div>
+        <div class="gate-cloud-layer gate-cloud-layer-d"></div>
+        <div class="gate-haze"></div>
       </div>
       <form id="accessForm">
         <strong>拾光札记</strong>
