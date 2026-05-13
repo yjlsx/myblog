@@ -97,11 +97,17 @@ if ("scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
 }
 
+function setHidden(element, hidden) {
+  if (!element) return;
+  element.classList.toggle("hidden", hidden);
+  element.hidden = hidden;
+}
+
 if (isAdminRoute) {
-  accessWidget.classList.add("hidden");
-  intro.classList.add("hidden");
-  listTools.classList.add("hidden");
-  listContent.classList.add("hidden");
+  setHidden(accessWidget, true);
+  setHidden(intro, true);
+  setHidden(listTools, true);
+  setHidden(listContent, true);
 }
 
 async function api(path, options = {}) {
@@ -149,9 +155,9 @@ function unlockSite(admin = false) {
   isAdmin = admin;
   isAuthenticated = true;
   document.body.classList.remove("auth-checking", "is-locked");
-  adminLogin.classList.add("hidden");
-  adminPanel.classList.toggle("hidden", !canManagePosts());
-  accessWidget.classList.add("hidden");
+  setHidden(adminLogin, true);
+  setHidden(adminPanel, !canManagePosts());
+  setHidden(accessWidget, true);
   accessWidget.classList.toggle("unlocked", true);
 
   if (isAdminRoute && !isAdmin) {
@@ -165,6 +171,7 @@ function unlockSite(admin = false) {
     showAdminListView();
     loadPosts();
   } else {
+    showListView();
     loadPosts();
   }
 }
@@ -172,13 +179,14 @@ function unlockSite(admin = false) {
 function lockSite(message = "") {
   isAdmin = false;
   isAuthenticated = false;
+  currentPostId = getPostIdFromPath();
   document.body.classList.remove("auth-checking");
   document.body.classList.toggle("is-locked", !isAdminRoute);
   posts = [];
   renderPosts();
-  adminPanel.classList.add("hidden");
-  adminLogin.classList.toggle("hidden", !isAdminRoute);
-  accessWidget.classList.toggle("hidden", isAdminRoute);
+  setHidden(adminPanel, true);
+  setHidden(adminLogin, !isAdminRoute);
+  setHidden(accessWidget, isAdminRoute);
   accessWidget.classList.toggle("unlocked", false);
   accessNote.textContent = message;
 
@@ -187,7 +195,10 @@ function lockSite(message = "") {
     adminLoginNote.textContent = message;
     adminLoginUser.focus();
   } else {
-    showListView();
+    setHidden(intro, true);
+    setHidden(listTools, true);
+    setHidden(listContent, true);
+    setHidden(fullArticle, true);
   }
 }
 
@@ -614,37 +625,57 @@ function openArticle(postId) {
 
 function showListView() {
   currentPostId = "";
-  intro.classList.remove("hidden");
-  listTools.classList.remove("hidden");
-  listContent.classList.remove("hidden");
-  fullArticle.classList.add("hidden");
+  setHidden(intro, false);
+  setHidden(listTools, false);
+  setHidden(listContent, false);
+  setHidden(fullArticle, true);
 }
 
 function showAdminLoginView() {
   currentPostId = "";
-  intro.classList.add("hidden");
-  listTools.classList.add("hidden");
-  listContent.classList.add("hidden");
-  fullArticle.classList.add("hidden");
+  setHidden(intro, true);
+  setHidden(listTools, true);
+  setHidden(listContent, true);
+  setHidden(fullArticle, true);
 }
 
 function showAdminListView() {
   currentPostId = "";
-  intro.classList.add("hidden");
-  listTools.classList.remove("hidden");
-  listContent.classList.remove("hidden");
-  fullArticle.classList.add("hidden");
+  setHidden(intro, true);
+  setHidden(listTools, false);
+  setHidden(listContent, false);
+  setHidden(fullArticle, true);
 }
 
 async function showArticlePage(postId) {
-  const post = await getFullPost(postId);
-  activeArticleCategory = post.category;
-
-  intro.classList.add("hidden");
-  listTools.classList.add("hidden");
-  listContent.classList.add("hidden");
-  fullArticle.classList.remove("hidden");
+  setHidden(intro, true);
+  setHidden(listTools, true);
+  setHidden(listContent, true);
+  setHidden(fullArticle, false);
+  fullArticleReader.className = "article-reader";
+  fullArticleReader.innerHTML = `<div class="empty-state">文章正在加载...</div>`;
   window.scrollTo(0, 0);
+
+  let post;
+  try {
+    post = await getFullPost(postId);
+  } catch (error) {
+    currentPostId = postId;
+    if (error.message === "unauthorized") {
+      lockSite("重新输入邀请码后，可以继续打开这篇文章。");
+      return;
+    }
+    fullArticleReader.innerHTML = `
+      <div class="empty-state">
+        这篇文章暂时没有加载成功。可以返回首页后再打开一次。
+      </div>
+    `;
+    showListView();
+    if (isAuthenticated) loadPosts();
+    return;
+  }
+
+  activeArticleCategory = post.category;
 
   fullArticleReader.className = `article-reader layout-${post.layout}`;
   fullArticleReader.innerHTML = `
@@ -704,11 +735,15 @@ backToList.addEventListener("click", (event) => {
 
 window.addEventListener("popstate", () => {
   currentPostId = getPostIdFromPath();
+  if (!isAuthenticated) {
+    lockSite();
+    return;
+  }
   if (currentPostId && isAuthenticated) {
     showArticlePage(currentPostId);
   } else {
     showListView();
-    if (isAuthenticated) loadPosts();
+    loadPosts();
   }
 });
 

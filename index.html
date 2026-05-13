@@ -12,7 +12,7 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/favicon.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="auth-checking">
     <canvas class="motion-bg" id="motionBg" aria-hidden="true"></canvas>
@@ -20,7 +20,7 @@
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="#" aria-label="拾光札记首页">
-          <img class="brand-avatar" src="assets/avatar.jpg" alt="网站头像" />
+          <img class="brand-avatar" src="/assets/avatar.jpg" alt="网站头像" />
           <span>
             <strong>拾光札记</strong>
             <small>把生活、阅读和思考，认真留下来</small>
@@ -30,7 +30,7 @@
       </div>
     </header>
 
-    <section class="admin-login hidden" id="adminLogin" aria-label="管理员登录">
+    <section class="admin-login hidden" id="adminLogin" aria-label="管理员登录" hidden>
       <div class="admin-inner">
         <form class="admin-login-form" id="adminLoginForm">
           <div>
@@ -57,7 +57,7 @@
       </div>
     </section>
 
-    <section class="admin-panel hidden" id="adminPanel" aria-label="文章管理">
+    <section class="admin-panel hidden" id="adminPanel" aria-label="文章管理" hidden>
       <div class="admin-inner">
         <div class="admin-heading">
           <div>
@@ -236,7 +236,7 @@
         </div>
       </section>
 
-      <section class="full-article hidden" id="fullArticle">
+      <section class="full-article hidden" id="fullArticle" hidden>
         <a class="back-link" href="/" id="backToList">返回</a>
         <article class="article-reader" id="fullArticleReader"></article>
       </section>
@@ -247,7 +247,7 @@
       <p>拾光札记 © 2026</p>
     </footer>
 
-    <aside class="access-widget hidden" id="accessWidget" aria-label="邀请码入口">
+    <aside class="access-widget hidden" id="accessWidget" aria-label="邀请码入口" hidden>
       <div class="gate-scene" aria-hidden="true">
         <video
           class="gate-video"
@@ -256,9 +256,9 @@
           loop
           playsinline
           preload="metadata"
-          poster="assets/gate-mountain-video-poster.webp?v=mist-4"
+          poster="/assets/gate-mountain-video-poster.webp?v=mist-4"
         >
-          <source src="assets/gate-mountain-clouds.mp4?v=mist-4" type="video/mp4" />
+          <source src="/assets/gate-mountain-clouds.mp4?v=mist-4" type="video/mp4" />
         </video>
         <div class="gate-haze"></div>
       </div>
@@ -276,6 +276,6 @@
       </form>
     </aside>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>
