@@ -66,6 +66,18 @@ body.is-locked {
   background: #151a18;
 }
 
+body.auth-checking {
+  min-height: 100vh;
+}
+
+body.auth-checking .site-header,
+body.auth-checking main,
+body.auth-checking .site-footer,
+body.auth-checking .access-widget {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 body.is-locked .site-header,
 body.is-locked main,
 body.is-locked .site-footer {

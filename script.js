@@ -148,7 +148,7 @@ function canManagePosts() {
 function unlockSite(admin = false) {
   isAdmin = admin;
   isAuthenticated = true;
-  document.body.classList.remove("is-locked");
+  document.body.classList.remove("auth-checking", "is-locked");
   adminLogin.classList.add("hidden");
   adminPanel.classList.toggle("hidden", !canManagePosts());
   accessWidget.classList.add("hidden");
@@ -172,6 +172,7 @@ function unlockSite(admin = false) {
 function lockSite(message = "") {
   isAdmin = false;
   isAuthenticated = false;
+  document.body.classList.remove("auth-checking");
   document.body.classList.toggle("is-locked", !isAdminRoute);
   posts = [];
   renderPosts();
