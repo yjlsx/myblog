@@ -467,29 +467,25 @@ main,
 .intro {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 520px);
+  grid-template-columns: auto minmax(420px, 520px);
   align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-  overflow: hidden;
-  margin: 16px 0 12px;
-  border: 1px solid rgba(222, 214, 202, 0.82);
-  border-radius: var(--radius);
-  background:
-    linear-gradient(135deg, rgba(255, 253, 248, 0.95), rgba(246, 239, 226, 0.86)),
-    linear-gradient(115deg, rgba(40, 95, 85, 0.12), transparent 42%, rgba(183, 131, 47, 0.13)),
-    url("assets/hero-journal.jpg") right center / auto 100% no-repeat;
-  box-shadow: var(--shadow);
-  padding: 16px 22px;
+  justify-content: space-between;
+  gap: clamp(18px, 3vw, 36px);
+  margin: 10px 0 8px;
+  border-bottom: 1px solid rgba(222, 214, 202, 0.82);
+  background: transparent;
+  padding: 8px 0 14px;
 }
 
 .intro::after {
   content: "";
   position: absolute;
-  top: 18px;
-  right: 20px;
-  width: min(220px, 24vw);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(183, 131, 47, 0.62));
+  top: 12px;
+  bottom: 18px;
+  left: 0;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent-dark), var(--gold));
   pointer-events: none;
 }
 
@@ -498,12 +494,13 @@ main,
   z-index: 1;
   width: min(720px, 100%);
   color: var(--ink);
+  padding-left: 16px;
 }
 
 .kicker {
   margin: 0;
   color: var(--accent-dark);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -535,36 +532,36 @@ main,
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
-  border: 1px solid rgba(255, 253, 248, 0.66);
-  border-radius: 10px;
-  background: rgba(255, 253, 248, 0.78);
-  box-shadow: 0 10px 28px rgba(42, 35, 25, 0.055);
-  padding: 9px 12px;
+  gap: 3px;
+  border: 1px solid rgba(222, 214, 202, 0.62);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.56);
+  box-shadow: none;
+  padding: 7px 10px;
 }
 
 .intro-panel span {
   color: var(--accent-dark);
   font-family: Georgia, "Noto Serif CJK SC", "SimSun", serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1;
 }
 
 .intro-panel small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .tools {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 18px;
   border-top: 0;
   border-bottom: 1px solid var(--line);
   background: transparent;
-  padding: 12px 0 18px;
+  padding: 10px 0 18px;
 }
 
 .tool-stack {
@@ -595,14 +592,17 @@ main,
 }
 
 .search-box {
-  display: grid;
-  gap: 5px;
+  display: block;
   width: min(340px, 100%);
 }
 
 .search-box label {
-  color: var(--muted);
-  font-size: 13px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .filter-tabs {
@@ -1578,10 +1578,7 @@ body.is-locked .access-widget button {
 
   .intro {
     margin: 12px 0 14px;
-    background:
-      linear-gradient(135deg, rgba(255, 253, 248, 0.96), rgba(246, 239, 226, 0.88)),
-      linear-gradient(115deg, rgba(40, 95, 85, 0.12), transparent 48%, rgba(183, 131, 47, 0.12));
-    padding: 20px;
+    padding: 14px;
   }
 
   .intro p:last-child {
@@ -1718,7 +1715,7 @@ body.is-locked .access-widget button {
 
   .intro {
     margin-top: 12px;
-    padding: 18px 16px;
+    padding: 13px 12px 12px 14px;
   }
 
   .intro p:last-child {
@@ -1735,11 +1732,11 @@ body.is-locked .access-widget button {
     align-items: center;
     flex-direction: column;
     gap: 3px;
-    padding: 8px 6px;
+    padding: 7px 5px;
   }
 
   .intro-panel span {
-    font-size: 23px;
+    font-size: 21px;
   }
 
   .intro-panel small {
