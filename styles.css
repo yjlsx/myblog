@@ -921,7 +921,7 @@ body.is-locked .access-widget {
   overflow: hidden;
   border: 0;
   border-radius: 0;
-  background: #0d1f26 url("assets/gate-mountain-video-poster.webp?v=mist-2") center / cover no-repeat;
+  background: #0d1f26 url("assets/gate-mountain-video-poster.webp?v=mist-3") center / cover no-repeat;
   box-shadow: none;
   padding: 24px;
 }
@@ -971,13 +971,13 @@ body.is-locked .gate-scene {
 
 .gate-haze {
   position: absolute;
-  inset: 34% -12% 0;
+  inset: 46% -12% 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.16) 28%, rgba(255, 255, 255, 0.08) 48%, rgba(14, 33, 30, 0.2)),
-    radial-gradient(ellipse at 50% 56%, rgba(255, 255, 255, 0.22), transparent 58%);
-  filter: blur(12px);
-  opacity: 0.9;
+    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.06) 30%, rgba(14, 33, 30, 0.14)),
+    radial-gradient(ellipse at 50% 60%, rgba(255, 255, 255, 0.10), transparent 62%);
+  filter: blur(8px);
+  opacity: 0.34;
   z-index: 3;
 }
 
