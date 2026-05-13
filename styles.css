@@ -966,19 +966,242 @@ body.is-locked .gate-scene {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  filter: saturate(1.04) contrast(1.03);
+  filter: saturate(1.02) contrast(1.02) brightness(0.96);
+  transform: scale(1.01);
+}
+
+.gate-valley-fog {
+  position: absolute;
+  left: -34vw;
+  width: 168vw;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.58;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
+.gate-valley-fog::before,
+.gate-valley-fog::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  filter: blur(13px);
+}
+
+.gate-valley-fog::before {
+  background-image:
+    radial-gradient(ellipse 10% 28% at 8% 54%, rgba(255, 255, 255, 0.9) 0 35%, rgba(255, 255, 255, 0.36) 58%, transparent 76%),
+    radial-gradient(ellipse 12% 24% at 23% 46%, rgba(255, 255, 255, 0.76) 0 34%, rgba(255, 255, 255, 0.28) 56%, transparent 74%),
+    radial-gradient(ellipse 15% 30% at 42% 56%, rgba(255, 255, 255, 0.92) 0 36%, rgba(255, 255, 255, 0.32) 58%, transparent 76%),
+    radial-gradient(ellipse 11% 22% at 62% 45%, rgba(255, 255, 255, 0.72) 0 33%, rgba(255, 255, 255, 0.24) 56%, transparent 74%),
+    radial-gradient(ellipse 13% 27% at 82% 58%, rgba(255, 255, 255, 0.82) 0 35%, rgba(255, 255, 255, 0.3) 58%, transparent 76%);
+}
+
+.gate-valley-fog::after {
+  transform: translateY(18%) scaleY(0.74);
+  background-image:
+    radial-gradient(ellipse 9% 24% at 13% 50%, rgba(255, 255, 255, 0.58) 0 34%, rgba(255, 255, 255, 0.2) 56%, transparent 74%),
+    radial-gradient(ellipse 12% 27% at 31% 55%, rgba(255, 255, 255, 0.68) 0 35%, rgba(255, 255, 255, 0.24) 58%, transparent 76%),
+    radial-gradient(ellipse 10% 22% at 53% 47%, rgba(255, 255, 255, 0.54) 0 33%, rgba(255, 255, 255, 0.18) 55%, transparent 73%),
+    radial-gradient(ellipse 13% 25% at 74% 53%, rgba(255, 255, 255, 0.7) 0 34%, rgba(255, 255, 255, 0.22) 57%, transparent 75%),
+    radial-gradient(ellipse 9% 21% at 92% 49%, rgba(255, 255, 255, 0.52) 0 32%, rgba(255, 255, 255, 0.18) 54%, transparent 72%);
+}
+
+.gate-valley-fog-a {
+  top: 42%;
+  height: 128px;
+  animation: valleyFogFast 11s linear infinite;
+}
+
+.gate-valley-fog-b {
+  top: 50%;
+  height: 104px;
+  opacity: 0.5;
+  transform: scaleY(0.78);
+  animation: valleyFogMedium 15s linear infinite reverse;
+}
+
+.gate-valley-fog-c {
+  top: 35%;
+  height: 84px;
+  opacity: 0.38;
+  transform: scaleY(0.62);
+  animation: valleyFogHigh 18s linear infinite;
+}
+
+.gate-mist-puffs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gate-mist-puffs i {
+  position: absolute;
+  display: block;
+  width: 24vw;
+  height: 82px;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 48% 50%, rgba(255, 255, 255, 0.92) 0 18%, rgba(255, 255, 255, 0.55) 38%, rgba(255, 255, 255, 0.18) 62%, transparent 78%),
+    radial-gradient(ellipse at 72% 48%, rgba(255, 255, 255, 0.62) 0 17%, rgba(255, 255, 255, 0.24) 46%, transparent 70%);
+  filter: blur(15px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.gate-mist-puffs i:nth-child(1) {
+  top: 42%;
+  left: -28vw;
+  width: 28vw;
+  animation: mistPuffRight 8.5s linear infinite;
+}
+
+.gate-mist-puffs i:nth-child(2) {
+  top: 50%;
+  left: -34vw;
+  width: 22vw;
+  height: 72px;
+  animation: mistPuffRight 10s linear infinite 1.4s;
+}
+
+.gate-mist-puffs i:nth-child(3) {
+  top: 36%;
+  right: -30vw;
+  width: 26vw;
+  height: 70px;
+  animation: mistPuffLeft 9.5s linear infinite 0.7s;
+}
+
+.gate-mist-puffs i:nth-child(4) {
+  top: 55%;
+  right: -36vw;
+  width: 31vw;
+  height: 96px;
+  animation: mistPuffLeft 11s linear infinite 2.1s;
+}
+
+.gate-mist-puffs i:nth-child(5) {
+  top: 46%;
+  left: -26vw;
+  width: 18vw;
+  height: 60px;
+  animation: mistPuffRight 7.8s linear infinite 3.2s;
+}
+
+.gate-mist-puffs i:nth-child(6) {
+  top: 39%;
+  right: -28vw;
+  width: 19vw;
+  height: 58px;
+  animation: mistPuffLeft 8.8s linear infinite 4s;
 }
 
 .gate-haze {
   position: absolute;
-  inset: 46% -12% 0;
+  inset: 50% -12% 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.06) 30%, rgba(14, 33, 30, 0.14)),
-    radial-gradient(ellipse at 50% 60%, rgba(255, 255, 255, 0.10), transparent 62%);
+    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.04) 30%, rgba(14, 33, 30, 0.12)),
+    radial-gradient(ellipse at 50% 60%, rgba(255, 255, 255, 0.08), transparent 62%);
   filter: blur(8px);
-  opacity: 0.34;
+  opacity: 0.24;
   z-index: 3;
+}
+
+@keyframes valleyFogFast {
+  0% {
+    transform: translate3d(-16vw, 0, 0) scaleY(1);
+    opacity: 0.38;
+  }
+  12% {
+    opacity: 0.92;
+  }
+  50% {
+    transform: translate3d(14vw, -8px, 0) scaleY(1.08);
+    opacity: 0.86;
+  }
+  100% {
+    transform: translate3d(44vw, 2px, 0) scaleY(0.96);
+    opacity: 0.42;
+  }
+}
+
+@keyframes valleyFogMedium {
+  0% {
+    transform: translate3d(22vw, 0, 0) scaleY(0.78);
+    opacity: 0.34;
+  }
+  16% {
+    opacity: 0.76;
+  }
+  58% {
+    transform: translate3d(-10vw, 6px, 0) scaleY(0.88);
+    opacity: 0.72;
+  }
+  100% {
+    transform: translate3d(-42vw, -3px, 0) scaleY(0.74);
+    opacity: 0.36;
+  }
+}
+
+@keyframes valleyFogHigh {
+  0% {
+    transform: translate3d(-22vw, 0, 0) scaleY(0.62);
+    opacity: 0.22;
+  }
+  18% {
+    opacity: 0.58;
+  }
+  62% {
+    transform: translate3d(8vw, -10px, 0) scaleY(0.7);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(36vw, -4px, 0) scaleY(0.58);
+    opacity: 0.24;
+  }
+}
+
+@keyframes mistPuffRight {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.82);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.78;
+  }
+  54% {
+    transform: translate3d(62vw, -8px, 0) scale(1.08);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(128vw, 6px, 0) scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes mistPuffLeft {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.86);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.72;
+  }
+  56% {
+    transform: translate3d(-60vw, 7px, 0) scale(1.06);
+    opacity: 0.86;
+  }
+  100% {
+    transform: translate3d(-124vw, -5px, 0) scale(0.9);
+    opacity: 0;
+  }
 }
 
 .access-widget form {
@@ -1399,7 +1622,9 @@ body.is-locked .access-widget button {
     display: none;
   }
 
-  .gate-video {
+  .gate-video,
+  .gate-valley-fog,
+  .gate-mist-puffs {
     display: none;
   }
 
@@ -1518,6 +1743,65 @@ body.is-locked .access-widget button {
 
   .gate-haze {
     inset: 36% -18% 0;
+  }
+
+  .gate-valley-fog {
+    left: -52vw;
+    width: 210vw;
+  }
+
+  .gate-valley-fog::before,
+  .gate-valley-fog::after {
+    background-size: 560px 100%;
+    filter: blur(10px);
+  }
+
+  .gate-valley-fog-a {
+    top: 38%;
+    height: 108px;
+    animation-duration: 11s;
+  }
+
+  .gate-valley-fog-b {
+    top: 46%;
+    height: 92px;
+    animation-duration: 15s;
+  }
+
+  .gate-valley-fog-c {
+    top: 31%;
+    height: 74px;
+    animation-duration: 18s;
+  }
+
+  .gate-mist-puffs i {
+    width: 46vw;
+    height: 68px;
+    filter: blur(12px);
+  }
+
+  .gate-mist-puffs i:nth-child(1) {
+    top: 39%;
+    left: -52vw;
+    width: 56vw;
+  }
+
+  .gate-mist-puffs i:nth-child(2) {
+    top: 47%;
+    left: -48vw;
+    width: 44vw;
+  }
+
+  .gate-mist-puffs i:nth-child(3) {
+    top: 34%;
+    right: -50vw;
+    width: 50vw;
+  }
+
+  .gate-mist-puffs i:nth-child(4) {
+    top: 52%;
+    right: -56vw;
+    width: 58vw;
   }
 
   .header-inner,
