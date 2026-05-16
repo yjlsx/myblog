@@ -416,12 +416,6 @@ function renderPosts() {
 
 function updateHeroStats() {
   if (!heroTotalCount || !heroEssayCount || !heroReadingCount) return;
-  if (!isAuthenticated) {
-    heroTotalCount.textContent = "受邀";
-    heroEssayCount.textContent = "随笔";
-    heroReadingCount.textContent = "读书";
-    return;
-  }
   const readingCount = posts.filter((post) => post.category === "reading").length;
   heroTotalCount.textContent = String(posts.length);
   heroReadingCount.textContent = String(readingCount);
