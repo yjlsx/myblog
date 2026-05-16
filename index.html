@@ -23,10 +23,15 @@
           <img class="brand-avatar" src="/assets/avatar.jpg" alt="网站头像" />
           <span>
             <strong>拾光札记</strong>
-            <small>把生活、阅读和思考，认真留下来</small>
+            <small>给自己和受邀者的私人知识花园</small>
           </span>
         </a>
 
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#notes" data-collection-link="essay">札记</a>
+          <a href="#notes" data-collection-link="reading">读书</a>
+          <a href="#invite" id="accessNavLink">进入</a>
+        </nav>
       </div>
     </header>
 
@@ -184,7 +189,25 @@
     <main>
       <section class="intro" id="top">
         <div class="intro-copy">
-          <p class="kicker">私人札记</p>
+          <p class="kicker">私人知识花园</p>
+          <h1>把值得留下的东西，放进一处安静的房间。</h1>
+          <p>
+            这里收纳阅读、写作、观察与长文。内容向我自己和受邀者开放，
+            输入邀请码后即可进入。
+          </p>
+          <form class="hero-access" id="heroAccessForm" aria-label="邀请码进入">
+            <label for="heroAccessInvite">邀请码</label>
+            <div class="hero-access-row" id="invite">
+              <input
+                id="heroAccessInvite"
+                type="password"
+                placeholder="输入邀请码"
+                autocomplete="one-time-code"
+              />
+              <button type="submit">进入札记</button>
+            </div>
+            <p id="heroAccessNote" role="status"></p>
+          </form>
         </div>
         <div class="intro-panel" aria-label="内容概览">
           <div>
@@ -200,6 +223,17 @@
             <small>读书笔记</small>
           </div>
         </div>
+      </section>
+
+      <section class="locked-preview" id="lockedPreview" aria-label="受邀访问说明">
+        <div>
+          <p class="kicker">受邀访问</p>
+          <h2>这是一处私密的阅读空间。</h2>
+        </div>
+        <p>
+          文章、读书笔记和长文会在验证邀请码后展开。若你已经收到邀请码，
+          可以从上方入口进入；站主仍可通过管理员入口发布和整理内容。
+        </p>
       </section>
 
       <section class="tools" id="listTools" aria-label="内容筛选">

@@ -14,6 +14,10 @@ const accessWidget = document.querySelector("#accessWidget");
 const accessForm = document.querySelector("#accessForm");
 const accessInvite = document.querySelector("#accessInvite");
 const accessNote = document.querySelector("#accessNote");
+const heroAccessForm = document.querySelector("#heroAccessForm");
+const heroAccessInvite = document.querySelector("#heroAccessInvite");
+const heroAccessNote = document.querySelector("#heroAccessNote");
+const accessNavLink = document.querySelector("#accessNavLink");
 const pagination = document.querySelector("#pagination");
 const pagePrev = document.querySelector("#pagePrev");
 const pageNext = document.querySelector("#pageNext");
@@ -155,6 +159,7 @@ function unlockSite(admin = false) {
   isAdmin = admin;
   isAuthenticated = true;
   document.body.classList.remove("auth-checking", "is-locked");
+  document.body.classList.add("is-unlocked");
   setHidden(adminLogin, true);
   setHidden(adminPanel, !canManagePosts());
   setHidden(accessWidget, true);
@@ -180,7 +185,7 @@ function lockSite(message = "") {
   isAdmin = false;
   isAuthenticated = false;
   currentPostId = getPostIdFromPath();
-  document.body.classList.remove("auth-checking");
+  document.body.classList.remove("auth-checking", "is-unlocked");
   document.body.classList.toggle("is-locked", !isAdminRoute);
   posts = [];
   renderPosts();
@@ -189,13 +194,14 @@ function lockSite(message = "") {
   setHidden(accessWidget, isAdminRoute);
   accessWidget.classList.toggle("unlocked", false);
   accessNote.textContent = message;
+  if (heroAccessNote) heroAccessNote.textContent = message;
 
   if (isAdminRoute) {
     showAdminLoginView();
     adminLoginNote.textContent = message;
     adminLoginUser.focus();
   } else {
-    setHidden(intro, true);
+    setHidden(intro, false);
     setHidden(listTools, true);
     setHidden(listContent, true);
     setHidden(fullArticle, true);
@@ -225,14 +231,11 @@ async function checkSession() {
   lockSite();
 }
 
-accessForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  accessNote.textContent = "";
-
-  const invite = accessInvite.value.trim();
-
+async function submitInvite(invite, noteElement, inputElement) {
+  if (noteElement) noteElement.textContent = "";
   if (!invite) {
-    accessNote.textContent = "请输入邀请码。";
+    if (noteElement) noteElement.textContent = "请输入邀请码。";
+    inputElement?.focus();
     return;
   }
 
@@ -251,12 +254,45 @@ accessForm.addEventListener("submit", async (event) => {
     });
 
     unlockSite(session.admin);
-    accessInvite.value = "";
-    accessNote.textContent = "文章已解锁。";
+    if (inputElement) inputElement.value = "";
+    if (noteElement) noteElement.textContent = "文章已解锁。";
   } catch (error) {
-    accessNote.textContent = error.message || "邀请码不对。";
-    accessInvite.focus();
+    if (noteElement) noteElement.textContent = error.message || "邀请码不对。";
+    inputElement?.focus();
   }
+}
+
+accessForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await submitInvite(accessInvite.value.trim(), accessNote, accessInvite);
+});
+
+heroAccessForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await submitInvite(heroAccessInvite.value.trim(), heroAccessNote, heroAccessInvite);
+});
+
+accessNavLink?.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (isAuthenticated) {
+    document.querySelector("#notes")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  heroAccessInvite?.focus();
+  document.querySelector("#invite")?.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+document.querySelectorAll("[data-collection-link]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (!isAuthenticated) return;
+    event.preventDefault();
+    activeCollection = link.dataset.collectionLink || "all";
+    activeFilter = "all";
+    activeTag = "";
+    currentPage = 1;
+    renderPosts();
+    document.querySelector("#notes")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 });
 
 adminLoginForm.addEventListener("submit", async (event) => {
