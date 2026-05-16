@@ -1519,8 +1519,7 @@ body.is-locked .access-widget button {
   }
 
   .site-nav {
-    gap: 10px;
-    font-size: 14px;
+    display: none;
   }
 
   .intro {
@@ -1558,19 +1557,7 @@ body.is-locked .access-widget button {
 
 @media (max-width: 600px) {
   body.is-locked .access-widget {
-    right: 12px;
-    bottom: 12px;
-    width: min(300px, calc(100vw - 24px));
-    padding: 12px;
-  }
-
-  body.is-locked .access-widget form {
-    width: auto;
-    padding: 0;
-  }
-
-  body.is-locked .access-widget strong {
-    font-size: 15px;
+    display: none !important;
   }
 
   .header-inner,
@@ -1600,7 +1587,7 @@ body.is-locked .access-widget button {
 
   .brand small {
     overflow: hidden;
-    max-width: calc(100vw - 210px);
+    max-width: calc(100vw - 96px);
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1618,16 +1605,23 @@ body.is-locked .access-widget button {
 
   .intro {
     margin-top: 12px;
+    display: block;
     padding: 22px;
   }
 
   .intro h1 {
-    font-size: 33px;
+    max-width: 8.5em;
+    font-size: 28px;
+    overflow-wrap: anywhere;
+    word-break: break-all;
   }
 
   .intro p:last-child {
+    max-width: 21em;
     font-size: 15px;
     line-height: 1.72;
+    overflow-wrap: anywhere;
+    word-break: break-all;
   }
 
   .hero-access-row {
@@ -1639,15 +1633,17 @@ body.is-locked .access-widget button {
   }
 
   .intro-panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 6px;
+    margin-top: 22px;
   }
 
   .intro-panel div {
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 3px;
-    padding: 7px 5px;
+    padding: 9px 12px;
   }
 
   .intro-panel span {
@@ -1655,12 +1651,19 @@ body.is-locked .access-widget button {
   }
 
   .intro-panel small {
-    font-size: 12px;
+    display: none;
   }
 
   .locked-preview {
     margin-bottom: 34px;
     padding: 22px 0;
+  }
+
+  .locked-preview > p {
+    max-width: 21em;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+    word-break: break-all;
   }
 
   .site-footer {
